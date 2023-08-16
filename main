@@ -66,19 +66,29 @@ def check_winner(player_no):
         return False
 
 
-def clear_record():
+def new_board():
     PLAYER_RECORDS[0]['record'].clear()
     PLAYER_RECORDS[1]['record'].clear()
     POS_BLOCKED.clear()
     print('Record has been reset.')
 
+    new_board = list('''
+-------------
+| 1 | 2 | 3 |
+-------------
+| 4 | 5 | 6 |
+-------------
+| 7 | 8 | 9 |
+------------- ''')
+    return new_board
+
 
 def play_game():
+    print(f"-------------\nWelcome to Tic Tac Toe Game!\nLet's get it started!{''.join(BOARD)}\n")
+
     should_continue = True
     while should_continue:
-        if len(POS_BLOCKED) == 0:
-            print(f"-------------\nWelcome to Tic Tac Toe Game!\nLet's get it started!{''.join(BOARD)}\n")
-
+    
         for user in PLAYER_RECORDS:
 
             available_pos = [i for i in WHOLE_POS if i not in POS_BLOCKED]
@@ -95,17 +105,18 @@ def play_game():
             if check_winner(current_user) == True:
                 print('Game Over!\n')
                 should_continue = False
-
-                replay = input(f'Replay? (Y/N): ').lower()
-                if replay == 'y':
-                    clear_record()
-                    should_continue = True
-                    break
-                else:
-                    break
+                break
             else:
                 continue
 
 # ==========================================================
 if __name__ == "__main__":
-    play_game()
+    while True:
+        play_game()
+
+        replay = input(f'Replay? (Y/N): ').lower()
+        if replay == 'y':
+            BOARD = new_board()
+        else:
+            print('Bye~')
+            break
